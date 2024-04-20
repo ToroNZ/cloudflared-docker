@@ -37,6 +37,11 @@ jobs:
          name: Get Latest Tag
          id: previoustag
          uses: WyriHaximus/github-action-get-previous-tag@385a2a0b6abf6c2efeb95adfac83d96d6f968e0c # pin@v1.3.0
+      - name: set lower case owner name
+        run: |
+          echo "REPO_SOURCE=${REPO,,}" >>${GITHUB_ENV}
+        env:
+          OWNER: '${{ github.repository_owner }}'
       -
         name: Build and push
         uses: docker/build-push-action@v3
@@ -46,7 +51,7 @@ jobs:
           platforms: linux/amd64,linux/386,linux/arm64,linux/arm/v7,linux/arm/v6,linux/s390x,linux/ppc64le,linux/riscv64
           push: true
           tags: |
-            ghcr.io/${{ github.repository_owner | toLower }}/cloudflared:latest
-            ghcr.io/${{ github.repository_owner | toLower }}/cloudflared:${{ steps.previoustag.outputs.tag }}
+            ghcr.io/${{ env.REPO_SOURCE }}/cloudflared:latest
+            ghcr.io/${{ env.REPO_SOURCE }}/cloudflared:${{ steps.previoustag.outputs.tag }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
