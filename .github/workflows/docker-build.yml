@@ -39,7 +39,7 @@ jobs:
          uses: WyriHaximus/github-action-get-previous-tag@385a2a0b6abf6c2efeb95adfac83d96d6f968e0c # pin@v1.3.0
       - name: set lower case owner name
         run: |
-          echo "REPO_SOURCE=${REPO,,}" >>${GITHUB_ENV}
+          echo "REPO_SOURCE=${OWNER,,}" >>${GITHUB_ENV}
         env:
           OWNER: '${{ github.repository_owner }}'
       -
