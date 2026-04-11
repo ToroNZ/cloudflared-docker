@@ -1,6 +1,6 @@
 # Build container
-ARG GOVERSION=1.23
-ARG ALPINEVERSION=3.21
+ARG GOVERSION=1.25
+ARG ALPINEVERSION=3.23
 
 FROM --platform=${BUILDPLATFORM} \
     golang:$GOVERSION-alpine${ALPINEVERSION} AS build
@@ -11,7 +11,7 @@ RUN apk --no-cache add git build-base bash
 ENV GO111MODULE=on \
     CGO_ENABLED=0
 
-ARG VERSION=2025.5.0
+ARG VERSION=2026.1.2
 RUN git clone https://github.com/cloudflare/cloudflared --depth=1 --branch ${VERSION} .
 RUN bash -x .teamcity/install-cloudflare-go.sh
 
