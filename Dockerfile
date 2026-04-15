@@ -13,7 +13,6 @@ ENV GO111MODULE=on \
 
 ARG VERSION=2026.1.2
 RUN git clone https://github.com/cloudflare/cloudflared --depth=1 --branch ${VERSION} .
-RUN bash -x .teamcity/install-cloudflare-go.sh
 
 # From this point on, step(s) are duplicated per-architecture
 ARG TARGETOS
