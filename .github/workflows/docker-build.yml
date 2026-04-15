@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 0 1 * *'
 
 jobs:
   multi-arch-push:
@@ -17,10 +19,10 @@ jobs:
           fetch-depth: 0
       -
         name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v4
       -
         name: Cache Docker layers
-        uses: actions/cache@v3
+        uses: actions/cache@v5
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ github.sha }}
@@ -28,7 +30,7 @@ jobs:
             ${{ runner.os }}-buildx-
       - 
         name: Login to GitHub Registry
-        uses: docker/login-action@v2 
+        uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -36,7 +38,7 @@ jobs:
       -
          name: Get Latest Tag
          id: previoustag
-         uses: WyriHaximus/github-action-get-previous-tag@385a2a0b6abf6c2efeb95adfac83d96d6f968e0c # pin@v1.3.0
+         uses: WyriHaximus/github-action-get-previous-tag@v2 # pin@v1.3.0
       - name: set lower case owner name
         run: |
           echo "REPO_SOURCE=${OWNER,,}" >>${GITHUB_ENV}
@@ -44,7 +46,7 @@ jobs:
           OWNER: '${{ github.repository_owner }}'
       -
         name: Build and push
-        uses: docker/build-push-action@v3
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
