@@ -11,7 +11,7 @@ RUN apk --no-cache add git build-base bash
 ENV GO111MODULE=on \
     CGO_ENABLED=0
 
-ARG VERSION=2026.10.2
+ARG VERSION=2026.10.5
 RUN git clone https://github.com/cloudflare/cloudflared --depth=1 --branch ${VERSION} .
 
 # From this point on, step(s) are duplicated per-architecture
